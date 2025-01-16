@@ -2,7 +2,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageArea = document.getElementById("image-area");
     const processBtn = document.getElementById("process-btn");
     const resultArea = document.getElementById("recognized-text");
-    const resultImage = document.getElementById("result-image");
 
     let imageBase64 = "";
 
@@ -15,9 +14,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 const reader = new FileReader();
 
                 reader.onload = function (event) {
+                    // 배경 이미지 설정
                     imageArea.style.backgroundImage = `url(${event.target.result})`;
-                    imageBase64 = event.target.result.split(",")[1]; // Base64 데이터
+                    imageArea.style.backgroundSize = "contain";
+                    imageArea.style.backgroundRepeat = "no-repeat";
+                    imageArea.style.backgroundPosition = "center";
 
+                    imageBase64 = event.target.result.split(",")[1]; // Base64 데이터
+                    
                     // "이미지를 여기에 붙여넣으세요." 텍스트 숨기기
                     const placeholderText = imageArea.querySelector("p");
                     if (placeholderText) {
@@ -52,8 +56,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 // 인식된 텍스트 표시
                 resultArea.innerHTML = data.text.join("<br>");
 
-                // 바운딩 박스가 표시된 이미지 표시
-                resultImage.src = `data:image/png;base64,${data.image_with_boxes}`;
+                // 바운딩 박스가 표시된 이미지를 imageArea에 표시
+                imageArea.style.backgroundImage = `url(data:image/png;base64,${data.image_with_boxes})`;
+                imageArea.style.backgroundSize = "contain";
+                imageArea.style.backgroundRepeat = "no-repeat";
+                imageArea.style.backgroundPosition = "center";
             })
             .catch((error) => console.error("Error:", error));
     });
