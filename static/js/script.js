@@ -17,6 +17,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 reader.onload = function (event) {
                     imageArea.style.backgroundImage = `url(${event.target.result})`;
                     imageBase64 = event.target.result.split(",")[1]; // Base64 데이터
+
+                    // "이미지를 여기에 붙여넣으세요." 텍스트 숨기기
+                    const placeholderText = imageArea.querySelector("p");
+                    if (placeholderText) {
+                        placeholderText.style.display = "none";
+                    }
                 };
 
                 reader.readAsDataURL(file);
