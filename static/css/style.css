@@ -13,6 +13,6 @@
 
 #result-area {
     height: 300px;
-    overflow-y: auto;
+    overflow: auto;
     background-color: #fff;
 }
