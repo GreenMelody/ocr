@@ -1,4 +1,4 @@
-#image-area {
+#image-area,#processed-image-area {
     width: 100%;
     height: 300px;
     background-color: #f8f9fa;

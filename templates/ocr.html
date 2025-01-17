@@ -11,25 +11,44 @@
 <div class="container mt-4">
     <h1 class="text-center">OCR</h1>
 
-    <!-- 이미지 업로드 및 캔버스 -->
-    <div id="image-area" class="border p-3 mb-3">
-        <p class="text-center">Paste(Ctrl + v) image</p>
+    <!-- 탭 구성 -->
+    <ul class="nav nav-tabs" id="ocrTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="image-tab" data-bs-toggle="tab" data-bs-target="#image-tab-pane" type="button" role="tab" aria-controls="image-tab-pane" aria-selected="true">Image</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="processed-image-tab" data-bs-toggle="tab" data-bs-target="#processed-image-tab-pane" type="button" role="tab" aria-controls="processed-image-tab-pane" aria-selected="false">Processed Image</button>
+        </li>
+    </ul>
+
+    <div class="tab-content" id="ocrTabContent">
+        <!-- 원본 이미지 탭 -->
+        <div class="tab-pane fade show active" id="image-tab-pane" role="tabpanel" aria-labelledby="image-tab" tabindex="0">
+            <div id="image-area" class="border p-3 mb-3">
+                <p class="text-center">Paste(Ctrl + v) image</p>
+            </div>
+        </div>
+
+        <!-- 처리된 이미지 탭 -->
+        <div class="tab-pane fade" id="processed-image-tab-pane" role="tabpanel" aria-labelledby="processed-image-tab" tabindex="0">
+            <div id="processed-image-area" class="border p-3 mb-3"></div>
+        </div>
     </div>
 
     <!-- 언어 선택 버튼 -->
     <h5>Select Languages</h5>
     <div id="language-selection" class="mb-3">
         <label class="form-check-inline">
-            <input type="checkbox" class="form-check-input" value="en" checked> English
+            <input type="checkbox" class="form-check-input" value="eng" checked> English
         </label>
         <label class="form-check-inline">
-            <input type="checkbox" class="form-check-input" value="ko"> Korean
+            <input type="checkbox" class="form-check-input" value="kor"> Korean
         </label>
         <label class="form-check-inline">
-            <input type="checkbox" class="form-check-input" value="ja"> Japanese
+            <input type="checkbox" class="form-check-input" value="jpn"> Japanese
         </label>
         <label class="form-check-inline">
-            <input type="checkbox" class="form-check-input" value="ch_sim"> Chinese
+            <input type="checkbox" class="form-check-input" value="chi_tra"> Chinese
         </label>
     </div>
 
@@ -52,5 +71,6 @@
     </div>
 </div>
 <script src="/static/js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

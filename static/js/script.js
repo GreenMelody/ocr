@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", function () {
+    const imageTab = document.getElementById("image-tab");
+    const processedImageTab = document.getElementById("processed-image-tab");
     const imageArea = document.getElementById("image-area");
+    const processedImageArea = document.getElementById("processed-image-area");
     const processBtn = document.getElementById("process-btn");
     const resultArea = document.getElementById("recognized-text");
     const loadingOverlay = document.getElementById("loading-overlay");
@@ -71,13 +74,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
                 // 인식된 텍스트 표시
-                resultArea.innerHTML = data.text.join("<br>");
+                if (Array.isArray(data.text)) {
+                    // 텍스트가 배열인 경우
+                    resultArea.innerHTML = data.text.join("<br>");
+                } else {
+                    // 텍스트가 문자열인 경우
+                    resultArea.textContent = data.text;
+                }
 
-                // 바운딩 박스가 표시된 이미지를 imageArea에 표시
-                imageArea.style.backgroundImage = `url(data:image/png;base64,${data.image_with_boxes})`;
-                imageArea.style.backgroundSize = "contain";
-                imageArea.style.backgroundRepeat = "no-repeat";
-                imageArea.style.backgroundPosition = "center";
+                // 처리된 이미지를 처리된 이미지 영역에 표시
+                processedImageArea.style.backgroundImage = `url(data:image/png;base64,${data.image_with_boxes})`;
+                processedImageArea.style.backgroundSize = "contain";
+                processedImageArea.style.backgroundRepeat = "no-repeat";
+                processedImageArea.style.backgroundPosition = "center";
+
+                // 탭 전환: 처리된 이미지 탭 활성화
+                processedImageTab.click();
             })
             .catch((error) => console.error("Error:", error))
             .finally(() => {
