@@ -40,6 +40,16 @@
     <div id="result-area" class="border p-3 mb-4" style="overflow: auto; white-space: nowrap; resize: vertical; min-height: 300px;">
         <div id="recognized-text" class="mt-2"></div>
     </div>
+
+    <!-- 로딩 스피너 -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner-container">
+            <div class="spinner-border text-light" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="text-light mt-2">Processing...</p>
+        </div>
+    </div>
 </div>
 <script src="/static/js/script.js"></script>
 </body>

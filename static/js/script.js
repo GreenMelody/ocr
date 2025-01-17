@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const imageArea = document.getElementById("image-area");
     const processBtn = document.getElementById("process-btn");
     const resultArea = document.getElementById("recognized-text");
+    const loadingOverlay = document.getElementById("loading-overlay");
 
     let imageBase64 = "";
 
@@ -51,6 +52,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // 로딩 화면 표시
+        loadingOverlay.style.display = "block";
+
         fetch("/ocr/process_image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -75,6 +79,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 imageArea.style.backgroundRepeat = "no-repeat";
                 imageArea.style.backgroundPosition = "center";
             })
-            .catch((error) => console.error("Error:", error));
+            .catch((error) => console.error("Error:", error))
+            .finally(() => {
+                // 로딩 화면 숨기기
+                loadingOverlay.style.display = "none";
+            });
     });
 });
