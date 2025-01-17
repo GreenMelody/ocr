@@ -16,11 +16,27 @@
         <p class="text-center">Paste(Ctrl + v) image</p>
     </div>
 
+    <!-- 언어 선택 버튼 -->
+    <h5>Select Languages</h5>
+    <div id="language-selection" class="mb-3">
+        <label class="form-check-inline">
+            <input type="checkbox" class="form-check-input" value="en" checked> English
+        </label>
+        <label class="form-check-inline">
+            <input type="checkbox" class="form-check-input" value="ko"> Korean
+        </label>
+        <label class="form-check-inline">
+            <input type="checkbox" class="form-check-input" value="ja"> Japanese
+        </label>
+        <label class="form-check-inline">
+            <input type="checkbox" class="form-check-input" value="ch_sim"> Chinese
+        </label>
+    </div>
+
     <!-- 문자인식 버튼 -->
     <button id="process-btn" class="btn btn-primary w-100 mb-3">Extract Text</button>
 
     <!-- 인식된 텍스트 -->
-    <h5>Result</h5>
     <div id="result-area" class="border p-3 mb-4" style="overflow: auto; white-space: nowrap; resize: vertical; min-height: 300px;">
         <div id="recognized-text" class="mt-2"></div>
     </div>

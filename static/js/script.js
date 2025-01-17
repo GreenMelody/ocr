@@ -41,10 +41,23 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
+        // 선택된 언어 가져오기
+        const selectedLanguages = Array.from(
+            document.querySelectorAll("#language-selection input:checked")
+        ).map((checkbox) => checkbox.value);
+
+        if (selectedLanguages.length === 0) {
+            alert("최소한 하나의 언어를 선택하세요.");
+            return;
+        }
+
         fetch("/ocr/process_image", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ image: imageBase64 }),
+            body: JSON.stringify({ 
+                image: imageBase64,
+                languages: selectedLanguages,
+            }),
         })
             .then((response) => response.json())
             .then((data) => {

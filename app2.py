@@ -8,12 +8,9 @@ import numpy as np
 
 ocr_blueprint = Blueprint('ocr', __name__)
 
-reader = easyocr.Reader(['en', 'ko'], gpu=False)  # 필요한 언어 설정
-
 @ocr_blueprint.route('/')
 def ocr_page():
     return render_template('ocr.html')
-
 
 @ocr_blueprint.route('/process_image', methods=['POST'])
 def process_image():
@@ -21,21 +18,22 @@ def process_image():
         # 클라이언트로부터 Base64 이미지 데이터 수신
         data = request.json
         image_data = base64.b64decode(data['image'])
+        selected_languages = data.get('languages', ['en'])  # 기본값: 영어
 
         # 이미지를 PIL 형식으로 변환 후 흑백 변환
         image = Image.open(io.BytesIO(image_data))
+        ori_img = image
 
         # 이미지를 흑백으로 변환
         image = image.convert("L")
 
         # PIL 이미지를 NumPy 배열로 변환
         image_np = np.array(image)
+        ori_img_np = np.array(ori_img)
+        reader = easyocr.Reader(selected_languages, gpu=False)
 
         # EasyOCR로 텍스트 인식
         results = reader.readtext(image_np)
-
-        image = image.convert("RGB")  # 바운딩 박스를 그리기 위해 RGB로 변환
-        image_np = np.array(image)
 
         # Bounding Box 기반 텍스트 병합
         merged_text = []
@@ -60,18 +58,17 @@ def process_image():
             bottom_right = tuple(map(int, bottom_right))
 
             # 박스 그리기
-            cv2.rectangle(image_np, top_left, bottom_right, (0, 255, 0), 2)
+            cv2.rectangle(ori_img_np, top_left, bottom_right, (0, 255, 0), 2)
 
         # 마지막 줄 추가
         if current_line:
             merged_text.append(" ".join(current_line))
 
-        # 바운딩 박스가 그려진 이미지를 Base64로 변환
-        _, buffer = cv2.imencode('.png', image_np)
-        image_with_boxes = base64.b64encode(buffer).decode('utf-8')
+        ori_img_np = cv2.cvtColor(ori_img_np, cv2.COLOR_BGR2RGB)
 
-        # 인식된 텍스트 리스트 정리
-        # extracted_text = [text for _, text, _ in results]
+        # 바운딩 박스가 그려진 이미지를 Base64로 변환
+        _, buffer = cv2.imencode('.png', ori_img_np)
+        image_with_boxes = base64.b64encode(buffer).decode('utf-8')
 
         return jsonify({
             'text': merged_text,
@@ -79,4 +76,3 @@ def process_image():
         })
     except Exception as e:
         return jsonify({'error': str(e)}), 500
-
